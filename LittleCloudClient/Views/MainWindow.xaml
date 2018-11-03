@@ -1,0 +1,187 @@
+﻿<Window x:Class="LittleCloudClient.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LittleCloudClient.Views"
+        mc:Ignorable="d"
+        xmlns:ViewModels="clr-namespace:LittleCloudClient.ViewModels"
+        xmlns:Converters="clr-namespace:LittleCloudClient.Converters"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+        Title="LITTLE CLOUD" Height="600" Width="400"  BorderBrush="#FF5285C4"
+        x:Name="MW"
+        WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Window.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding RefreshFriendsListCommand}"/>
+    </Window.InputBindings>
+    <Window.Resources>
+        <Style x:Key="MyButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Converters:BoolToBitmapImageConverter x:Key="BoolToBitmapImageConverter"/>
+        <ViewModels:MainViewModel x:Key="MainViewModel"/>
+    </Window.Resources>
+    <Window.DataContext>
+        <ViewModels:MainViewModel/>
+    </Window.DataContext>
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Closing">
+            <i:InvokeCommandAction Command="{Binding DataContext.LogoutCommand, ElementName=MW}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Grid x:Name="LayoutRoot" DataContext="{StaticResource MainViewModel}">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid HorizontalAlignment="Left" Height="142.742" Margin="-1.4,-3.2,0,0" VerticalAlignment="Top" Width="395.4" Background="#FF5285C4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="LOGOUT" Style="{StaticResource MyButton}" HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="58" Margin="328,6,0,0" Background="#00DDDDDD" BorderThickness="0" Foreground="White" Command="{Binding LogoutCommand}" Click="LogoutButton_Click" Grid.ColumnSpan="2"/>
+        </Grid>
+
+        <!--여기서부터-->
+        <Grid HorizontalAlignment="Left" Height="75.41" Margin="25.242,43.132,0,0" VerticalAlignment="Top" Width="78.689" RenderTransformOrigin="0.167,0.022">
+            <Grid.Background>
+                <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_man_196742.png"/>
+            </Grid.Background>
+        </Grid>
+        <Button Command="{Binding ChatStartCommand}" Style="{StaticResource MyButton}" Name="Chat" HorizontalAlignment="Left" Height="76" Margin="153.4,42.542,0,0" VerticalAlignment="Top" Width="76" RenderTransformOrigin="0.503,0.242">
+            <Button.Background>
+                <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_bubbles_196748.png"/>
+            </Button.Background>
+        </Button>
+        <Button Style="{StaticResource MyButton}" HorizontalAlignment="Left" Height="75.41" Margin="281.6,43.132,0,0" VerticalAlignment="Top" Width="78.689" Click="CloudButton_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_cloud_1296374.png"/>
+            </Button.Background>
+        </Button>
+        <!--여기까지 메뉴-->
+        <TextBlock HorizontalAlignment="Left" Height="25.6" Margin="11,153.6,0,0" TextWrapping="Wrap" Text="친구 목록" VerticalAlignment="Top" Width="72.8" Foreground="#FF525050"/>
+        <ListView ItemsSource="{Binding Friends}" x:Name="_friendsListView"
+            Focusable="False" HorizontalAlignment="Left" Height="363" Margin="13,192,0,0" VerticalAlignment="Top" Width="365" BorderThickness="0" Background="Transparent" >
+            <!--이건 리스트뷰 속성이라서 지우면 안돼요!!!!!!!!!!-->
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="false"/>
+                    <EventSetter Event="MouseUp" Handler="ListViewItem_MouseUp" />
+                </Style>
+            </ListView.ItemContainerStyle>
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <ei:ChangePropertyAction TargetObject="{Binding Mode=OneWay}" PropertyName="SelectedFriendsItems" Value="{Binding Path=SelectedItems, ElementName=_friendsListView}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <!--여기서부터 넣어놓은 값들-->
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="40" Width="344.8">
+                        <Image Height="38" Width="41.6" Margin="0,0,302.8,2" Source="{Binding IsLogin, Converter={StaticResource BoolToBitmapImageConverter}}"/>
+                        <TextBlock  HorizontalAlignment="Left" Height="23" Margin="56.2,9,0,0" TextWrapping="Wrap" Text="{Binding UserID}" VerticalAlignment="Top" Width="134.2" FontSize="14" FontFamily="Calibri"/>
+                        <CheckBox Visibility="Hidden" Margin="328,10,0,6.8" RenderTransformOrigin="0.974,0.845"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+            <!--<ListViewItem>
+                <Grid Height="40" Width="344.8">
+                    <Grid Height="38" Width="41.6" Margin="0,0,302.8,2" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_Account_online.png" />
+                        </Grid.Background>
+                    </Grid>
+                    <TextBlock  HorizontalAlignment="Left" Height="23" Margin="56.2,9,0,0" TextWrapping="Wrap" Text="yerin4025" VerticalAlignment="Top" Width="134.2" FontSize="14" FontFamily="Calibri"/>
+                    <CheckBox Visibility="Hidden" Margin="328,10,0,6.8" RenderTransformOrigin="0.974,0.845"/>
+                </Grid>
+            </ListViewItem>
+            -->
+            <!--태현이 힘들까봐 구분중1-->
+            <!--
+            <ListViewItem>
+                <Grid Height="40" Width="344.8">
+                    <Grid Height="38" Width="41.6" Margin="0,0,302.8,2" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_Account_online.png" />
+                        </Grid.Background>
+                    </Grid>
+                    <TextBlock  HorizontalAlignment="Left" Height="23" Margin="56.2,9,0,0" TextWrapping="Wrap" Text="cloud_kim" VerticalAlignment="Top" Width="134.2" FontSize="14" FontFamily="Calibri"/>
+                    <CheckBox Visibility="Hidden" Margin="328,10,0,6.8" RenderTransformOrigin="0.974,0.845"/>
+                </Grid>
+            </ListViewItem>
+            -->
+            <!--태현이 힘들까봐 구분중2-->
+            <!--
+            <ListViewItem >
+                <Grid Height="40" Width="344.8">
+                    <Grid Height="38" Width="41.6" Margin="0,0,302.8,2" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_Account_offline.png" />
+                        </Grid.Background>
+                    </Grid>
+                    <TextBlock  HorizontalAlignment="Left" Height="23" Margin="56.2,9,0,0" TextWrapping="Wrap" Text="taehyun" VerticalAlignment="Top" Width="134.2" FontSize="14" FontFamily="Calibri"/>
+                    <CheckBox Visibility="Hidden" Margin="328,10,0,6.8" RenderTransformOrigin="0.974,0.845"/>
+                </Grid>
+            </ListViewItem>
+            -->
+            <!--태현이 힘들까봐 구분중3-->
+            <!--
+            <ListViewItem>
+                <Grid Height="40" Width="344.8">
+                    <Grid Height="38" Width="41.6" Margin="0,0,302.8,2" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_Account_online.png" />
+                        </Grid.Background>
+                    </Grid>
+                    <TextBlock  HorizontalAlignment="Left" Height="23" Margin="56.2,9,0,0" TextWrapping="Wrap" Text="yun4591" VerticalAlignment="Top" Width="134.2" FontSize="14" FontFamily="Calibri"/>
+                    <CheckBox Visibility="Hidden" Margin="328,10,0,6.8" RenderTransformOrigin="0.974,0.845"/>
+                </Grid>
+            </ListViewItem>
+            -->
+            <!--태현이 힘들까봐 구분중4-->
+            <!--
+            <ListViewItem >
+                <Grid Height="40" Width="344.8">
+                    <Grid Height="38" Width="41.6" Margin="0,0,302.8,2" >
+                        <Grid.Background>
+                            <ImageBrush ImageSource="/LittleCloudClient;component/Resources/if_Account_offline.png" />
+                        </Grid.Background>
+                    </Grid>
+
+                    <TextBlock  HorizontalAlignment="Left" Height="23" Margin="56.2,9,0,0" TextWrapping="Wrap" Text="mtjdwns" VerticalAlignment="Top" Width="134.2" FontSize="14" FontFamily="Calibri"/>
+                    <CheckBox Visibility="Hidden" Margin="328,10,0,6.8" RenderTransformOrigin="0.974,0.845"/>
+                </Grid>
+            </ListViewItem>-->
+        </ListView>
+        <!--여기는 친구 목록 밑에 있는 회색 줄 -->
+        <InkCanvas HorizontalAlignment="Left" Height="1" Margin="10,178.4,0,0" VerticalAlignment="Top" Width="370" Background="#FF525050" RenderTransformOrigin="0.5,0.5">
+            <InkCanvas.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleY="-1"/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </InkCanvas.RenderTransform>
+        </InkCanvas>
+    </Grid>
+</Window>

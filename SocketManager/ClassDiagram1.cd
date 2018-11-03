@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SocketManager.AsyncObject">
+    <Position X="3.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>AsyncObject.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocketManager.SocketClient">
+    <Position X="5.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQAAIAAgAIAAQAABBAAAAAEAAAAAAAAAAAABABAAAAA=</HashCode>
+      <FileName>SocketClient.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocketManager.SocketServer">
+    <Position X="1.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>SocketServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SocketManager.SocketServer&lt;T&gt;">
+    <Position X="0.75" Y="0.5" Width="2.5" />
+    <NestedTypes>
+      <Delegate Name="SocketManager.SocketServer&lt;T&gt;.ReceiveMessageHandler" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>SocketServer.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAQAAQACAAgAAAAAAAAQAAMAAAQAAAAEAAAAAA=</HashCode>
+      <FileName>SocketServer.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

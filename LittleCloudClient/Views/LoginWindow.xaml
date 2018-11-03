@@ -1,0 +1,69 @@
+﻿<Window x:Class="LittleCloudClient.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LittleCloudClient.Views"
+        xmlns:ViewModels="clr-namespace:LittleCloudClient.ViewModels"
+        xmlns:Converters="clr-namespace:LittleCloudClient.Converters"
+        mc:Ignorable="d"
+        Title="LITTLE CLOUD" Height="600" Width="400"  Background="#FF5285C4" BorderBrush="#FF5285C4"
+        WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="MyButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="1.0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ViewModels:LoginViewModel x:Key="LoginViewModel" />
+        <Converters:PasswordBoxConverter x:Key="PasswordConverter" />
+    </Window.Resources>
+    <Grid Margin="0,-28.276,0,1.5" Background="#E55285C4" DataContext="{StaticResource LoginViewModel}">
+
+        <TextBlock  Foreground="white" HorizontalAlignment="Left" Height="56.4" Margin="43.2,259.002,0,0" TextWrapping="Wrap" Text="LITTLE CLOUD" VerticalAlignment="Top" Width="313.2" FontFamily="BM JUA_TTF" FontSize="48">
+            <TextBlock.Background>
+                <ImageBrush/>
+            </TextBlock.Background>
+        </TextBlock>
+        <TextBlock HorizontalAlignment="Left" Height="285.576" Margin="43.2,10.913,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="294.7">
+            <TextBlock.Background>
+                <ImageBrush ImageSource="/LittleCloudClient;component/Resources/logo_cloud.png"/>
+            </TextBlock.Background>
+        </TextBlock>
+
+        <TextBox Name="id" HorizontalAlignment="Left" Height="39" Margin="58.9,357.4,0,0" TextWrapping="Wrap" Text="{Binding Member.UserID, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" 
+                 Foreground="Gray" FontSize="13"  VerticalContentAlignment="Center" Width="273" TabIndex="0"
+                 Padding="10" GotKeyboardFocus="id_GotKeyboardFocus" LostKeyboardFocus="id_LostKeyboardFocus">
+            <TextBox.InputBindings>
+                <KeyBinding Key="Return" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passwd, Converter={StaticResource PasswordConverter}}"/>
+            </TextBox.InputBindings>
+        </TextBox>
+        <Button Name="login" Style="{StaticResource MyButton}" Foreground="White" Content="로그인"  HorizontalAlignment="Left" Height="48" Margin="58.9,468.9,0,0" VerticalAlignment="Top" Width="273" Background="#FDF06552"
+                TabIndex="2"
+                Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passwd, Converter={StaticResource PasswordConverter}}">
+            <Button.InputBindings>
+                <KeyBinding Key="Return" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passwd, Converter={StaticResource PasswordConverter}}"/>
+            </Button.InputBindings>
+        </Button>
+        <PasswordBox Name="passwd" HorizontalAlignment="Left" Height="39"  Margin="59,405,0,0" VerticalAlignment="Top" Width="273" Password="비밀번호" Foreground="Gray" TabIndex="1"
+                     VerticalContentAlignment="Center" FontSize="13" Padding="10" GotKeyboardFocus="passwd_GotKeyboardFocus" LostKeyboardFocus="passwd_LostKeyboardFocus">
+            <PasswordBox.InputBindings>
+                <KeyBinding Key="Return" Command="{Binding LoginCommand}" CommandParameter="{Binding ElementName=passwd, Converter={StaticResource PasswordConverter}}"/>
+            </PasswordBox.InputBindings>
+        </PasswordBox>
+        <TextBox Text="{Binding LoginResult}" Visibility="Hidden" TextChanged="TextBox_TextChanged"/>
+    </Grid>
+</Window>

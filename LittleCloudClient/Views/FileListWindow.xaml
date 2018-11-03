@@ -1,0 +1,51 @@
+﻿<Window x:Class="LittleCloudClient.Views.FileListWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LittleCloudClient.Views"
+        mc:Ignorable="d"
+              Title="LITTLE CLOUD" Height="400" Width="400"  BorderBrush="#FF5285C4"
+        WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="MyButton" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" BorderThickness="0" BorderBrush="Black" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <ListView ItemsSource="{Binding FileList, Source={StaticResource ChatViewModel}}" HorizontalAlignment="Left" Height="355.6" Margin="7,9,0,0" VerticalAlignment="Top" Width="366" BorderThickness="0" BorderBrush="#00ABADB3">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="false"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Height="40" Width="360">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180*"/>
+                            <ColumnDefinition Width="169*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock HorizontalAlignment="Left" Height="23.4" Margin="0,6.6,0,0" TextWrapping="Wrap" Text="{Binding FileName}" VerticalAlignment="Top" Width="187.8" FontSize="14" Grid.ColumnSpan="2"/>
+                        <Button Name="downloadButton3" Style="{StaticResource MyButton}" Command="{Binding SaveFileCommand, Mode=OneWay, Source={StaticResource ChatViewModel}}" CommandParameter="{Binding Path=File}" Content="다운로드" HorizontalAlignment="Left" Height="30" Margin="72.6,5.91,0,0" VerticalAlignment="Top" Width="97.727" Background="#FF5285C4" Foreground="White" BorderBrush="#00707070" Grid.Column="1"/>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Window>

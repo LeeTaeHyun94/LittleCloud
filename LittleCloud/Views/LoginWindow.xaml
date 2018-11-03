@@ -1,0 +1,20 @@
+﻿<Window x:Class="LittleCloud.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LittleCloud.Views"
+        xmlns:LoginViewModel="clr-namespace:LittleCloud.ViewModels"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="300" Width="300">
+    <Window.Resources>
+        <LoginViewModel:LoginViewModel x:Key="LoginViewModel"/>
+    </Window.Resources>
+    <Grid DataContext="{StaticResource LoginViewModel}">
+        <TextBlock Margin="0,104,203,142" TextAlignment="Center" Text="ID"/>
+        <TextBox Margin="94,104,48,142" Text="{Binding ID, UpdateSourceTrigger=PropertyChanged}"/>
+        <TextBlock Margin="0,132,203,114" TextAlignment="Center" Text="Password"/>
+        <TextBox Margin="94,132,48,114" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Name="LoginButton" Margin="114,173,82,71" Content="Login" Command="{Binding LoginCommand, Mode=OneWay}" Click="LoginButton_Click"/>
+    </Grid>
+</Window>
